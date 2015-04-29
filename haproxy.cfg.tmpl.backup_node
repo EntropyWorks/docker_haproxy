@@ -22,8 +22,25 @@ defaults
   option redispatch
   balance  leastconn
 
-listen galera-cluster 0.0.0.0:33006
-  mode tcp 
-  balance roundrobin
+frontend mysql
+  mode tcp
+  option tcplog
+  maxconn 2000
+  bind 127.0.0.1:3306
+  default_backend mysql
+
+backend mysql
+  mode tcp
+  balance leastconn
   option httpchk
+  option tcplog
+  timeout connect 61s
 {{ range $node_name := gets "/galera/*" }}  server {{ base $node_name.Key }} {{ $node_name.Value }}:3306 check port 8000 inter 12000 rise 3 fall 3 {{ end }}
+
+# M vina the where the admin web gui is to match the hostname
+
+# the reason is going through a reverse proxy I can match the URL
+# to the right host.
+listen admin 0.0.0.0:22002
+  mode http
+  stats uri /proxynode
