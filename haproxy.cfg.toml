@@ -1,0 +1,9 @@
+[template]
+#prefix = "/galera"
+src = "haproxy.cfg.tmpl"
+dest = "/etc/haproxy/haproxy.cfg"
+owner = "haproxy"
+mode = "0644"
+keys = [ "/galera/" ]
+check_cmd = "/usr/sbin/haproxy -c -f {{ .src }}"
+reload_cmd = "/usr/sbin/service haproxy reload"
