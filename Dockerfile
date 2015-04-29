@@ -15,7 +15,6 @@ COPY haproxy.cfg.tmpl /etc/confd/templates/haproxy.cfg.tmpl
 COPY haproxy.cfg.toml /etc/confd/conf.d/haproxy.cfg.toml
 
 COPY docker-entrypoint.sh /entrypoint.sh
-#ENTRYPOINT ["/entrypoint.sh"]
 
-EXPOSE 80 3306
-CMD ["haproxy"]
+EXPOSE 80 3306 22002
+CMD ["/entrypoint.sh"]
