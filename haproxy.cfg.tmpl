@@ -28,8 +28,7 @@ listen galera-cluster 0.0.0.0:33006
   balance source
   option tcplog
   option httpchk
-{{ range $node_name := gets "/galera/*" }}  
-  server {{ base $node_name.Key }} {{ $node_name.Value }}:3306 check port 8000 inter 12000 rise 3 fall 3
+{{ range $node_name := gets "/galera/*" }} server {{ base $node_name.Key }} {{ $node_name.Value }}:3306 check port 8000 inter 12000 rise 3 fall 3
 {{ end }}
 
 listen stats 0.0.0.0:22002
